@@ -15,7 +15,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -qq update && \
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /tmp
-ENV COMPOSER_VERSION 1.5.2
+ENV COMPOSER_VERSION 1.7.2
 
 RUN curl -s -f -L -o /tmp/installer.php https://raw.githubusercontent.com/composer/getcomposer.org/da290238de6d63faace0343efbdd5aa9354332c5/web/installer \
  && php -r " \
