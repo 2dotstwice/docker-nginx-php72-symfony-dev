@@ -10,7 +10,7 @@ ADD ./files/etc/nginx/symfony/666-dev.conf /etc/nginx/symfony/666-dev.conf
 # Partially borrowed from https://github.com/composer/docker.
 # Install composer.
 RUN DEBIAN_FRONTEND=noninteractive apt-get -qq update && \
-    DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends -q install curl && \
+    DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends -q install curl wget apt-transport-https && \
     rm -rf /var/lib/apt/lists/*
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
@@ -29,3 +29,10 @@ RUN curl -s -f -L -o /tmp/installer.php https://raw.githubusercontent.com/compos
  && php /tmp/installer.php --no-ansi --install-dir=/usr/bin --filename=composer --version=${COMPOSER_VERSION} \
  && composer --ansi --version --no-interaction \
  && rm -rf /tmp/* /tmp/.htaccess
+
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
+ && wget -qO- https://deb.nodesource.com/setup_8.x | sudo -E bash - \
+ && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
+ && DEBIAN_FRONTEND=noninteractive apt-get -qq update \
+ && DEBIAN_FRONTEND=noninteractive apt-get -y -q --no-install-recommends install yarn nodejs \
+ && rm -rf /var/lib/apt/lists/*
